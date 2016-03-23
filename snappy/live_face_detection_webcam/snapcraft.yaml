@@ -1,0 +1,26 @@
+name: live-face-fetection-webcam # the name of the snap
+version: 1.0.0 # the version of the snap
+summary: live face detection through webcam, connect to http://${ip}:5000 # 79 char long summary
+description: Use trained data from opencv (3.1.0) to detect human face through webcam, write in python with flask, access to http://${ip}:5000 to see the live face detection  # A longer description for the snap
+icon: fd.png # A path to an icon for the package - this is optional.
+
+apps:
+  livefd:
+    command: bin/start-livefd
+    daemon: simple
+    plugs: [listener]
+
+plugs:
+  listener:
+    interface: old-security
+    caps: [network-listener]
+    security-template: unconfined
+
+parts:
+  python-livefd:
+    plugin: make
+    source: .
+    stage-packages:
+      - python-dev
+      - python-opencv
+      - python-flask
